@@ -1,66 +1,122 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Проект "Магазин Товаров и Заказов" на Laravel 9
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Этот проект представляет собой демонстрационное веб-приложение для управления товарами и заказами, разработанное на Laravel 9. Он спроектирован с использованием принципов чистой архитектуры, включая слои DTO, Интерфейсов, Репозиториев, Сервисов и Контроллеров, а также использует Form Requests для валидации и преобразования входных данных.
 
-## About Laravel
+## Содержание
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* [Основные возможности](#основные-возможности)
+* [Используемые технологии](#используемые-технологии)
+* [Архитектура](#архитектура)
+* [Установка и запуск](#установка-и-запуск)
+* [Использование](#использование)
+* [Тестирование](#тестирование)
+* [Автор](#автор)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Основные возможности
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Управление товарами (CRUD):**
+    * Просмотр списка всех товаров.
+    * Добавление новых товаров с привязкой к категориям.
+    * Редактирование информации о существующих товарах.
+    * Детальный просмотр товара.
+    * Удаление товаров.
+* **Управление заказами (CRUD):**
+    * Просмотр списка всех заказов.
+    * Создание новых заказов, указывая покупателя, товар и количество.
+    * Редактирование информации о существующих заказах.
+    * Детальный просмотр заказа.
+    * Изменение статуса заказа на "выполнен".
+    * Удаление заказов.
+* **Связи между сущностями:** Товары привязаны к категориям, заказы привязаны к товарам.
+* **Валидация данных:** Строгая валидация входящих данных для всех операций создания и обновления.
 
-## Learning Laravel
+## Используемые технологии
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* **PHP 8.1+**
+* **Laravel Framework 9.x**
+* **MySQL** (или другая SQL-совместимая база данных)
+* **Composer** (для управления зависимостями PHP)
+* **Git** (система контроля версий)
+* **Bootstrap 5.3** (для базовой стилизации пользовательского интерфейса)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Архитектура
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Проект следует принципам **чистой архитектуры** и **Domain-Driven Design (DDD)** для обеспечения модульности, тестируемости и легкой поддерживаемости.
 
-## Laravel Sponsors
+* **Модели (Models):** Eloquent-модели (`Product`, `Order`, `Category`) представляют сущности базы данных и их взаимосвязи.
+* **DTO (Data Transfer Objects):** Объекты для безопасной и типизированной передачи данных между слоями приложения (например, из контроллера в сервис).
+* **Интерфейсы (Interfaces):** Определяют контракты для слоев Репозиториев и Сервисов, обеспечивая слабую связанность и возможность замены реализаций.
+* **Репозитории (Repositories):** Инкапсулируют логику работы с данными (CRUD-операции) для конкретных моделей, абстрагируя слой сервисов от деталей работы с базой данных.
+* **Сервисы (Services):** Содержат основную бизнес-логику приложения. Они используют Репозитории для доступа к данным и принимают DTO для выполнения операций.
+* **Form Requests (Фасады запросов):** Используются для валидации входящих HTTP-запросов и преобразования валидированных данных в соответствующие DTO, которые затем передаются в сервисы.
+* **Контроллеры (Controllers):** Обрабатывают входящие HTTP-запросы, используют Form Requests для получения валидированных DTO и делегируют бизнес-логику Сервисам.
+* **Представления (Views):** Blade-шаблоны для отображения пользовательского интерфейса.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Установка и запуск
 
-### Premium Partners
+Следуйте этим шагам, чтобы настроить и запустить проект локально.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+1.  **Клонируйте репозиторий:**
+    ```bash
+    git clone [https://github.com/ВАШ_НИКНЕЙМ/НАЗВАНИЕ_ВАШЕГО_РЕПОЗИТОРИЯ.git](https://github.com/ВАШ_НИКНЕЙМ/НАЗВАНИЕ_ВАШЕГО_РЕПОЗИТОРИЯ.git)
+    cd НАЗВАНИЕ_ВАШЕГО_РЕПОЗИТОРИЯ
+    ```
+    (Замени `ВАШ_НИКНЕЙМ/НАЗВАНИЕ_ВАШЕГО_РЕПОЗИТОРИЯ` на фактический путь к твоему репозиторию на GitHub.)
 
-## Contributing
+2.  **Установите зависимости Composer:**
+    ```bash
+    composer install
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3.  **Создайте копию файла окружения:**
+    ```bash
+    cp .env.example .env
+    ```
 
-## Code of Conduct
+4.  **Сгенерируйте ключ приложения:**
+    ```bash
+    php artisan key:generate
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5.  **Настройте базу данных:**
+    * Откройте файл `.env`.
+    * Настройте параметры подключения к базе данных (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
+    * Убедитесь, что указанная база данных существует.
 
-## Security Vulnerabilities
+    Пример:
+    ```dotenv
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=web_app_db
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6.  **Выполните миграции и сиды базы данных:**
+    ```bash
+    php artisan migrate --seed
+    ```
+    Эта команда создаст необходимые таблицы и заполнит таблицу `categories` начальными данными.
 
-## License
+7.  **Запустите локальный сервер Laravel:**
+    ```bash
+    php artisan serve
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+8.  **Откройте приложение в браузере:**
+    Перейдите по адресу, указанному в консоли (обычно `http://127.0.0.1:8000`).
+
+## Использование
+
+* После запуска приложения перейдите в браузере по адресу `http://127.0.0.1:8000/products` для управления товарами.
+* Или `http://127.0.0.1:8000/orders` для управления заказами.
+* Вы можете добавлять, просматривать, редактировать и удалять товары и заказы через веб-интерфейс.
+
+## Тестирование
+
+(Этот раздел можно развернуть, если ты добавишь тесты)
+
+Для запуска тестов (если они будут реализованы):
+```bash
+php artisan test
